@@ -13,8 +13,10 @@ export default function AdminJobs() {
     fetchJobs();
   }, []);
 
+  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
   const fetchJobs = async () => {
-    const res = await fetch('http://localhost:5000/api/jobs/all', {
+    const res = await fetch(`${API_BASE}/api/jobs/all`, {
       headers: { 'x-auth-token': localStorage.getItem('adminToken') }
     });
     if(res.ok) {
@@ -25,7 +27,7 @@ export default function AdminJobs() {
 
   const handleDelete = async (id) => {
     if(confirm('Are you sure you want to delete this job?')) {
-      await fetch(`http://localhost:5000/api/jobs/${id}`, {
+      await fetch(`${API_BASE}/api/jobs/${id}`, {
         method: 'DELETE',
         headers: { 'x-auth-token': localStorage.getItem('adminToken') }
       });
@@ -35,7 +37,7 @@ export default function AdminJobs() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch('http://localhost:5000/api/jobs', {
+    await fetch(`${API_BASE}/api/jobs`, {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',

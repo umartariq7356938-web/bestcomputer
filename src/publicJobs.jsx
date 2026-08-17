@@ -4,9 +4,10 @@ import './jobs.css';
 
 function JobsApp() {
   const [jobs, setJobs] = useState([]);
+  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/jobs')
+    fetch(`${API_BASE}/api/jobs`)
       .then(res => res.json())
       .then(data => setJobs(data))
       .catch(err => console.error(err));

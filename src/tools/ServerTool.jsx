@@ -19,9 +19,11 @@ export default function ServerTool({ tool, apiEndpoint }) {
 
     const formData = new FormData();
     formData.append('file', file);
+    
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
     try {
-      const response = await fetch(`http://localhost:5000/api/tools${apiEndpoint}`, {
+      const response = await fetch(`${API_BASE}/api/tools${apiEndpoint}`, {
         method: 'POST',
         body: formData,
       });
