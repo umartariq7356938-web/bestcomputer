@@ -109,8 +109,8 @@ function init3DHero() {
   strip.position.set(2.5, 3, 1.5);
   workstationGroup.add(strip);
 
-  // Center the workstation correctly on the right side of the screen
-  workstationGroup.position.set(4, -1, 0);
+  // Center the workstation correctly on the right side of the screen and lower it
+  workstationGroup.position.set(6, -2.5, 0);
   workstationGroup.rotation.y = -0.15; // Angled slightly
   scene.add(workstationGroup);
 
@@ -120,77 +120,79 @@ function init3DHero() {
   const floaterGeo2 = new THREE.BoxGeometry(0.6, 0.6, 0.6);
   const floaterGeo3 = new THREE.TetrahedronGeometry(0.6, 0);
   
-  const floaterMat1 = new THREE.MeshStandardMaterial({ color: 0x3b82f6, wireframe: true, transparent: true, opacity: 0.6 });
-  const floaterMat2 = new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.2, metalness: 0.8, transparent: true, opacity: 0.8 });
-  const floaterMat3 = new THREE.MeshStandardMaterial({ color: 0x8b5cf6, roughness: 0.4, transparent: true, opacity: 0.7 });
+  const floaterMat1 = new THREE.MeshStandardMaterial({ color: 0x3b82f6, wireframe: true, transparent: true, opacity: 0.4 });
+  const floaterMat2 = new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.2, metalness: 0.8, transparent: true, opacity: 0.5 });
+  const floaterMat3 = new THREE.MeshStandardMaterial({ color: 0x8b5cf6, roughness: 0.4, transparent: true, opacity: 0.4 });
 
   const createFloater = (geo, mat, pos) => {
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.set(pos.x, pos.y, pos.z);
     mesh.initialY = pos.y;
-    mesh.speed = Math.random() * 0.02 + 0.01;
+    mesh.speed = Math.random() * 0.01 + 0.005; // Slower floating
     mesh.offset = Math.random() * Math.PI * 2;
     scene.add(mesh);
     floaters.push(mesh);
   };
 
-  createFloater(floaterGeo1, floaterMat1, { x: 5, y: 3, z: 2 });
-  createFloater(floaterGeo2, floaterMat2, { x: 1, y: 5, z: -2 });
-  createFloater(floaterGeo3, floaterMat3, { x: 6, y: 1, z: 5 });
-  createFloater(floaterGeo1, floaterMat2, { x: -4, y: 6, z: -5 });
+  createFloater(floaterGeo1, floaterMat1, { x: 7, y: 2, z: 2 });
+  createFloater(floaterGeo2, floaterMat2, { x: 3, y: 4, z: -2 });
+  createFloater(floaterGeo3, floaterMat3, { x: 8, y: 0, z: 5 });
+  createFloater(floaterGeo1, floaterMat2, { x: -2, y: 5, z: -5 });
 
   // --- Lighting ---
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
   scene.add(ambientLight);
 
-  const mainLight = new THREE.PointLight(0x3b82f6, 1.5, 50);
+  const mainLight = new THREE.PointLight(0x3b82f6, 1.2, 50);
   mainLight.position.set(0, 10, 5);
   mainLight.castShadow = true;
   scene.add(mainLight);
 
-  const accentLight = new THREE.PointLight(0x8b5cf6, 1.5, 50);
+  const accentLight = new THREE.PointLight(0x8b5cf6, 1.2, 50);
   accentLight.position.set(10, 5, -5);
   scene.add(accentLight);
 
   // --- LCD Animations ---
   const lcdServices = [
-    { title: "BEST COMPUTER", sub: "Digital Services Center", bg: "#0a192f", fg: "#3b82f6", anim: "fade" },
-    { title: "COMPUTER SERVICES", sub: "Windows & Troubleshooting", bg: "#0f2027", fg: "#75dfac", anim: "type" },
-    { title: "GRAPHIC DESIGN", sub: "Creative & Print Media", bg: "#1e130c", fg: "#f59e0b", anim: "slide" },
-    { title: "PHOTOSTUDIO", sub: "Professional Portraits", bg: "#16102a", fg: "#8b5cf6", anim: "scale" },
-    { title: "NADRA SERVICES", sub: "E-Sahulat Center", bg: "#200909", fg: "#ef4444", anim: "glitch" }
+    { title: "BEST COMPUTER", sub: "Digital Service Center", fg: "#38bdf8", anim: "fade" },
+    { title: "COMPUTER REPAIR", sub: "Windows & Installation", fg: "#34d399", anim: "slideUp" },
+    { title: "GRAPHIC DESIGN", sub: "Creative Print Media", fg: "#fbbf24", anim: "slideRight" },
+    { title: "PHOTOSTUDIO", sub: "Professional Portraits", fg: "#a78bfa", anim: "scale" },
+    { title: "NADRA E-SAHULAT", sub: "Bill Payments & Services", fg: "#f472b6", anim: "type" }
   ];
   
   let currentServiceIdx = 0;
-  let animProgress = 0;
   let lastSwitch = Date.now();
 
   function drawLCD() {
     const w = screenCanvas.width;
     const h = screenCanvas.height;
     const now = Date.now();
-    const cycleTime = 2500;
+    const cycleTime = 4500; // 4.5 seconds per slide (slower, easier on eyes)
     
     if (now - lastSwitch > cycleTime) {
       currentServiceIdx = (currentServiceIdx + 1) % lcdServices.length;
       lastSwitch = now;
-      animProgress = 0;
-    } else {
-      animProgress = (now - lastSwitch) / cycleTime;
     }
+
+    const elapsed = now - lastSwitch;
+    // Animation takes 1.5 seconds, then holds steady
+    let progress = Math.min(1, elapsed / 1500);
+    // Smooth easing function (easeOutCubic)
+    const ease = 1 - Math.pow(1 - progress, 3);
 
     const svc = lcdServices[currentServiceIdx];
     
-    // Fill BG
-    ctx.fillStyle = svc.bg;
+    // Constant, soft dark background to prevent eye strain from color flashes
+    ctx.fillStyle = "#0b1221";
     ctx.fillRect(0, 0, w, h);
     
-    // Draw grid lines
-    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    // Very subtle, stable grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.03)';
     ctx.lineWidth = 1;
     ctx.beginPath();
-    for (let i = 0; i < w; i += 40) { ctx.moveTo(i, 0); ctx.lineTo(i, h); }
-    for (let i = 0; i < h; i += 40) { ctx.moveTo(0, i); ctx.lineTo(w, i); }
+    for (let i = 0; i < w; i += 50) { ctx.moveTo(i, 0); ctx.lineTo(i, h); }
+    for (let i = 0; i < h; i += 50) { ctx.moveTo(0, i); ctx.lineTo(w, i); }
     ctx.stroke();
 
     ctx.textAlign = 'center';
@@ -201,67 +203,64 @@ function init3DHero() {
 
     ctx.save();
     
+    // Set common soft fonts
+    const titleFont = 'bold 64px "Manrope", sans-serif';
+    const subFont = '400 32px "DM Sans", sans-serif';
+    
     if (svc.anim === 'fade') {
-      ctx.globalAlpha = Math.min(1, animProgress * 4);
-      const yOffset = (1 - ctx.globalAlpha) * 20;
+      ctx.globalAlpha = ease;
       ctx.fillStyle = svc.fg;
-      ctx.font = 'bold 70px "Manrope", sans-serif';
-      ctx.fillText(title, w/2, h/2 - 30 + yOffset);
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '400 36px "DM Sans", sans-serif';
-      ctx.fillText(sub, w/2, h/2 + 40 + yOffset);
-    } else if (svc.anim === 'type') {
-      const chars = Math.floor(animProgress * title.length * 2.5);
-      const typed = title.substring(0, chars);
+      ctx.font = titleFont;
+      ctx.fillText(title, w/2, h/2 - 25);
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.font = subFont;
+      ctx.fillText(sub, w/2, h/2 + 35);
+    } else if (svc.anim === 'slideUp') {
+      ctx.globalAlpha = ease;
+      const yOffset = (1 - ease) * 30;
       ctx.fillStyle = svc.fg;
-      ctx.font = 'bold 70px "Manrope", sans-serif';
-      ctx.fillText(typed, w/2, h/2 - 30);
-      if (animProgress > 0.4) {
-        ctx.fillStyle = '#ffffff';
-        ctx.font = '400 36px "DM Sans", sans-serif';
-        ctx.fillText(sub, w/2, h/2 + 40);
-      }
-    } else if (svc.anim === 'slide') {
-      const xOffset = Math.max(0, (1 - animProgress * 4) * w);
+      ctx.font = titleFont;
+      ctx.fillText(title, w/2, h/2 - 25 + yOffset);
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.font = subFont;
+      ctx.fillText(sub, w/2, h/2 + 35 + yOffset);
+    } else if (svc.anim === 'slideRight') {
+      ctx.globalAlpha = ease;
+      const xOffset = (1 - ease) * 40;
       ctx.fillStyle = svc.fg;
-      ctx.font = 'bold 70px "Manrope", sans-serif';
-      ctx.fillText(title, w/2 + xOffset, h/2 - 30);
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '400 36px "DM Sans", sans-serif';
-      ctx.fillText(sub, w/2 - xOffset, h/2 + 40);
+      ctx.font = titleFont;
+      ctx.fillText(title, w/2 + xOffset, h/2 - 25);
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.font = subFont;
+      ctx.fillText(sub, w/2 + xOffset, h/2 + 35);
     } else if (svc.anim === 'scale') {
-      const s = Math.min(1, animProgress * 5);
-      ctx.translate(w/2, h/2 - 30);
+      ctx.globalAlpha = ease;
+      const s = 0.9 + (ease * 0.1);
+      ctx.translate(w/2, h/2 - 25);
       ctx.scale(s, s);
       ctx.fillStyle = svc.fg;
-      ctx.font = 'bold 70px "Manrope", sans-serif';
+      ctx.font = titleFont;
       ctx.fillText(title, 0, 0);
       ctx.scale(1/s, 1/s);
-      ctx.translate(-w/2, -(h/2 - 30));
-      if (animProgress > 0.2) {
-        ctx.fillStyle = '#ffffff';
-        ctx.globalAlpha = Math.min(1, (animProgress - 0.2) * 5);
-        ctx.font = '400 36px "DM Sans", sans-serif';
-        ctx.fillText(sub, w/2, h/2 + 40);
+      ctx.translate(-w/2, -(h/2 - 25));
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.font = subFont;
+      ctx.fillText(sub, w/2, h/2 + 35);
+    } else if (svc.anim === 'type') {
+      const chars = Math.floor(ease * title.length);
+      const typed = title.substring(0, chars);
+      ctx.fillStyle = svc.fg;
+      ctx.font = titleFont;
+      ctx.fillText(typed, w/2, h/2 - 25);
+      if (progress > 0.8) {
+        ctx.globalAlpha = (progress - 0.8) * 5; // fade sub in at end
+        ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        ctx.font = subFont;
+        ctx.fillText(sub, w/2, h/2 + 35);
       }
-    } else if (svc.anim === 'glitch') {
-      ctx.font = 'bold 70px "Manrope", sans-serif';
-      if (animProgress < 0.2 && Math.random() > 0.5) {
-        ctx.fillStyle = 'cyan';
-        ctx.fillText(title, w/2 - 5, h/2 - 30);
-        ctx.fillStyle = 'red';
-        ctx.fillText(title, w/2 + 5, h/2 - 30);
-      } else {
-        ctx.fillStyle = svc.fg;
-        ctx.fillText(title, w/2, h/2 - 30);
-      }
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '400 36px "DM Sans", sans-serif';
-      ctx.fillText(sub, w/2, h/2 + 40);
     }
     
     ctx.restore();
-    
     screenTexture.needsUpdate = true;
   }
 
@@ -272,8 +271,9 @@ function init3DHero() {
   let targetY = 0;
 
   document.addEventListener('mousemove', (event) => {
-    mouseX = (event.clientX - window.innerWidth / 2) * 0.001;
-    mouseY = (event.clientY - window.innerHeight / 2) * 0.001;
+    // Reduced sensitivity to avoid dizzying movement
+    mouseX = (event.clientX - window.innerWidth / 2) * 0.0005;
+    mouseY = (event.clientY - window.innerHeight / 2) * 0.0005;
   });
 
   // Handle Resize
@@ -292,24 +292,24 @@ function init3DHero() {
     const time = clock.getElapsedTime();
     drawLCD();
 
-    // Smooth interaction interpolation
-    targetX = mouseX * 0.5;
-    targetY = mouseY * 0.5;
+    // Smooth, very slow interaction interpolation
+    targetX = mouseX * 0.3;
+    targetY = mouseY * 0.3;
 
     // Subtle rotation of the entire group
-    workstationGroup.rotation.y += 0.05 * (targetX - workstationGroup.rotation.y) - 0.005; // Base offset
-    workstationGroup.rotation.x += 0.05 * (targetY - workstationGroup.rotation.x);
+    workstationGroup.rotation.y += 0.03 * (targetX - workstationGroup.rotation.y) - 0.002; // Minimal offset
+    workstationGroup.rotation.x += 0.03 * (targetY - workstationGroup.rotation.x);
 
-    // Parallax camera slightly
-    camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
-    camera.position.y += (-mouseY * 5 + 5 - camera.position.y) * 0.05; // Base Y is 5
+    // Parallax camera slightly (gentler movement)
+    camera.position.x += (mouseX * 2 - camera.position.x) * 0.03;
+    camera.position.y += (-mouseY * 2 + 5 - camera.position.y) * 0.03; // Base Y is 5
     camera.lookAt(0, 0, 0);
 
-    // Animate floaters
+    // Animate floaters gently
     floaters.forEach(mesh => {
-      mesh.position.y = mesh.initialY + Math.sin(time + mesh.offset) * 0.5;
-      mesh.rotation.x += 0.01;
-      mesh.rotation.y += 0.01;
+      mesh.position.y = mesh.initialY + Math.sin(time * 0.5 + mesh.offset) * 0.3;
+      mesh.rotation.x += mesh.speed;
+      mesh.rotation.y += mesh.speed;
     });
 
     renderer.render(scene, camera);
