@@ -16,7 +16,8 @@ export default defineConfig({
         jobs: resolve(__dirname, 'jobs.html'),
         bills: resolve(__dirname, 'bills.html'),
         tools: resolve(__dirname, 'tools.html'),
-        aiStudio: resolve(__dirname, 'ai-studio.html')
+        aiStudio: resolve(__dirname, 'ai-studio.html'),
+        typingArcade: resolve(__dirname, 'typing-arcade.html')
       }
     }
   }
