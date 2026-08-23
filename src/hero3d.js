@@ -39,118 +39,132 @@ function init3DHero() {
   screenTexture.generateMipmaps = false;
   screenTexture.minFilter = THREE.LinearFilter;
 
-  // --- Object Construction (Procedural Workstation) ---
+  // --- Object Construction (Refined Premium Workstation) ---
   const workstationGroup = new THREE.Group();
 
-  // 1. Desk Surface
-  const deskGeo = new THREE.BoxGeometry(11, 0.5, 7);
-  const deskMat = new THREE.MeshStandardMaterial({ 
-    color: 0x1e293b, 
-    roughness: 0.8, 
-    metalness: 0.2 
-  });
-  const desk = new THREE.Mesh(deskGeo, deskMat);
-  desk.position.y = -0.25;
+  // Premium Materials
+  const darkMetal = new THREE.MeshPhysicalMaterial({ color: 0x0f172a, metalness: 0.8, roughness: 0.2, clearcoat: 0.5 });
+  const matteBlack = new THREE.MeshPhysicalMaterial({ color: 0x18181b, metalness: 0.5, roughness: 0.7 });
+  const woodDesk = new THREE.MeshPhysicalMaterial({ color: 0x1c1917, roughness: 0.9, metalness: 0.1 });
+  
+  // 1. Sleek Desk Surface
+  const deskGeo = new THREE.BoxGeometry(14, 0.3, 7);
+  const desk = new THREE.Mesh(deskGeo, woodDesk);
+  desk.position.y = -0.15;
   desk.receiveShadow = true;
   workstationGroup.add(desk);
 
-  // 2. Monitor Stand
-  const standGeo = new THREE.BoxGeometry(1, 2, 0.5);
-  const standMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.6 });
-  const stand = new THREE.Mesh(standGeo, standMat);
-  stand.position.set(-1.5, 1, -1);
-  stand.castShadow = true;
-  workstationGroup.add(stand);
+  // 2. Monitor Stand (Modern flat base + sleek neck)
+  const standBaseGeo = new THREE.BoxGeometry(2, 0.1, 1.5);
+  const standBase = new THREE.Mesh(standBaseGeo, darkMetal);
+  standBase.position.set(-1.5, 0.05, -1);
+  standBase.castShadow = true;
+  workstationGroup.add(standBase);
+  
+  const standNeckGeo = new THREE.BoxGeometry(0.3, 2.5, 0.3);
+  const standNeck = new THREE.Mesh(standNeckGeo, darkMetal);
+  standNeck.position.set(-1.5, 1.3, -1.2);
+  standNeck.rotation.x = 0.1;
+  standNeck.castShadow = true;
+  workstationGroup.add(standNeck);
 
-  // 3. Monitor Screen
-  const monitorGeo = new THREE.BoxGeometry(8, 5, 0.5);
-  const monitorMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.3, metalness: 0.8 });
-  const monitor = new THREE.Mesh(monitorGeo, monitorMat);
-  monitor.position.set(-1.5, 3.5, -0.8);
+  // 3. Ultra-Thin Monitor Screen
+  const monitorGeo = new THREE.BoxGeometry(8.5, 5, 0.15);
+  const monitor = new THREE.Mesh(monitorGeo, darkMetal);
+  monitor.position.set(-1.5, 3.8, -0.8);
   monitor.castShadow = true;
   workstationGroup.add(monitor);
 
-  // Screen Glow (Screen content simulation)
-  const screenGeo = new THREE.PlaneGeometry(7.6, 4.6);
+  // Screen Glow (Animated LCD)
+  const screenGeo = new THREE.PlaneGeometry(8.3, 4.8);
   const screenMat = new THREE.MeshBasicMaterial({ map: screenTexture });
   const screen = new THREE.Mesh(screenGeo, screenMat);
-  screen.position.set(-1.5, 3.5, -0.54);
+  screen.position.set(-1.5, 3.8, -0.72);
   workstationGroup.add(screen);
 
-  // 4. Keyboard
-  const keyboardGeo = new THREE.BoxGeometry(3.5, 0.2, 1.2);
-  const keyboardMat = new THREE.MeshStandardMaterial({ color: 0x475569 });
-  const keyboard = new THREE.Mesh(keyboardGeo, keyboardMat);
-  keyboard.position.set(-2, 0.1, 1.5);
-  keyboard.rotation.x = 0.05;
+  // 4. Keyboard (Slim)
+  const keyboardGeo = new THREE.BoxGeometry(3.2, 0.1, 1.1);
+  const keyboard = new THREE.Mesh(keyboardGeo, darkMetal);
+  keyboard.position.set(-2, 0.05, 1.5);
+  keyboard.rotation.x = 0.03;
   keyboard.castShadow = true;
   workstationGroup.add(keyboard);
 
-  // 5. Mouse
-  const mouseGeo = new THREE.BoxGeometry(0.5, 0.25, 0.8);
-  const mouseMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.5 });
-  const mouse = new THREE.Mesh(mouseGeo, mouseMat);
-  mouse.position.set(0.5, 0.125, 1.5);
+  // 5. Mouse (Ergonomic curve via low-poly smooth)
+  const mouseGeo = new THREE.BoxGeometry(0.4, 0.15, 0.7);
+  const mouse = new THREE.Mesh(mouseGeo, matteBlack);
+  mouse.position.set(0.5, 0.075, 1.5);
   mouse.castShadow = true;
   workstationGroup.add(mouse);
 
-  // 6. PC Tower (Right side)
-  const pcGeo = new THREE.BoxGeometry(2.5, 6, 5);
-  const pcMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.7, metalness: 0.3 });
-  const pc = new THREE.Mesh(pcGeo, pcMat);
-  pc.position.set(3.5, 3, -1);
+  // 6. Premium PC Tower (Glass side panel & glow)
+  const pcGeo = new THREE.BoxGeometry(2.2, 5.5, 4.5);
+  const pc = new THREE.Mesh(pcGeo, darkMetal);
+  pc.position.set(3.5, 2.75, -1);
   pc.castShadow = true;
   workstationGroup.add(pc);
   
-  // PC Glow Strip
-  const stripGeo = new THREE.BoxGeometry(0.2, 5, 0.1);
-  const stripMat = new THREE.MeshBasicMaterial({ color: 0x8b5cf6 });
+  // PC Inner Glow Panel
+  const stripGeo = new THREE.BoxGeometry(0.1, 4.8, 3.8);
+  const stripMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
   const strip = new THREE.Mesh(stripGeo, stripMat);
-  strip.position.set(2.5, 3, 1.5);
+  strip.position.set(2.41, 2.75, -1);
   workstationGroup.add(strip);
 
-  // Center the workstation correctly on the right side of the screen and lower it
-  workstationGroup.position.set(6, -2.5, 0);
-  workstationGroup.rotation.y = -0.15; // Angled slightly
+  // Center workstation and lower slightly for better framing
+  workstationGroup.position.set(5.5, -2.5, 0);
+  workstationGroup.rotation.y = -0.15;
   scene.add(workstationGroup);
 
-  // --- Floating Tech Elements ---
+  // --- Premium Floating Tech Elements (Glass/Light Orbs) ---
   const floaters = [];
-  const floaterGeo1 = new THREE.IcosahedronGeometry(0.5, 0);
-  const floaterGeo2 = new THREE.BoxGeometry(0.6, 0.6, 0.6);
-  const floaterGeo3 = new THREE.TetrahedronGeometry(0.6, 0);
+  const floaterGeo1 = new THREE.IcosahedronGeometry(0.4, 1); // smoother sphere
+  const floaterGeo2 = new THREE.TetrahedronGeometry(0.5, 1);
   
-  const floaterMat1 = new THREE.MeshStandardMaterial({ color: 0x3b82f6, wireframe: true, transparent: true, opacity: 0.4 });
-  const floaterMat2 = new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.2, metalness: 0.8, transparent: true, opacity: 0.5 });
-  const floaterMat3 = new THREE.MeshStandardMaterial({ color: 0x8b5cf6, roughness: 0.4, transparent: true, opacity: 0.4 });
+  const glassMat = new THREE.MeshPhysicalMaterial({ 
+    color: 0xffffff, transmission: 0.9, opacity: 1, metalness: 0, roughness: 0.1, ior: 1.5, thickness: 0.5 
+  });
+  const glowMat1 = new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.6 });
+  const glowMat2 = new THREE.MeshBasicMaterial({ color: 0xa78bfa, transparent: true, opacity: 0.6 });
 
   const createFloater = (geo, mat, pos) => {
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.set(pos.x, pos.y, pos.z);
     mesh.initialY = pos.y;
-    mesh.speed = Math.random() * 0.01 + 0.005; // Slower floating
+    mesh.speed = Math.random() * 0.005 + 0.002; // Very slow and premium
     mesh.offset = Math.random() * Math.PI * 2;
     scene.add(mesh);
     floaters.push(mesh);
   };
 
-  createFloater(floaterGeo1, floaterMat1, { x: 7, y: 2, z: 2 });
-  createFloater(floaterGeo2, floaterMat2, { x: 3, y: 4, z: -2 });
-  createFloater(floaterGeo3, floaterMat3, { x: 8, y: 0, z: 5 });
-  createFloater(floaterGeo1, floaterMat2, { x: -2, y: 5, z: -5 });
+  createFloater(floaterGeo1, glassMat, { x: 7, y: 2, z: 2 });
+  createFloater(floaterGeo2, glowMat1, { x: 2, y: 4, z: -1 });
+  createFloater(floaterGeo1, glowMat2, { x: 8, y: 1, z: 4 });
 
-  // --- Lighting ---
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+  // --- Realistic Lighting Setup ---
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.2); // Soft ambient
   scene.add(ambientLight);
 
-  const mainLight = new THREE.PointLight(0x3b82f6, 1.2, 50);
-  mainLight.position.set(0, 10, 5);
-  mainLight.castShadow = true;
-  scene.add(mainLight);
+  // Strong Key Light from Top Right
+  const keyLight = new THREE.SpotLight(0xffffff, 3);
+  keyLight.position.set(10, 15, 10);
+  keyLight.angle = Math.PI / 6;
+  keyLight.penumbra = 0.5;
+  keyLight.castShadow = true;
+  keyLight.shadow.mapSize.width = 1024;
+  keyLight.shadow.mapSize.height = 1024;
+  keyLight.shadow.bias = -0.0001;
+  scene.add(keyLight);
 
-  const accentLight = new THREE.PointLight(0x8b5cf6, 1.2, 50);
-  accentLight.position.set(10, 5, -5);
-  scene.add(accentLight);
+  // Soft Fill Light from Top Left (Blue tint)
+  const fillLight = new THREE.DirectionalLight(0x38bdf8, 1);
+  fillLight.position.set(-10, 10, 5);
+  scene.add(fillLight);
+
+  // Rim/Back Light (Purple tint) for depth
+  const rimLight = new THREE.PointLight(0xa78bfa, 2, 50);
+  rimLight.position.set(0, 5, -10);
+  scene.add(rimLight);
 
   // --- LCD Animations ---
   const lcdServices = [
@@ -293,16 +307,16 @@ function init3DHero() {
     drawLCD();
 
     // Smooth, very slow interaction interpolation
-    targetX = mouseX * 0.3;
-    targetY = mouseY * 0.3;
+    targetX = mouseX * 0.5;
+    targetY = mouseY * 0.5;
 
     // Subtle rotation of the entire group
-    workstationGroup.rotation.y += 0.03 * (targetX - workstationGroup.rotation.y) - 0.002; // Minimal offset
-    workstationGroup.rotation.x += 0.03 * (targetY - workstationGroup.rotation.x);
+    workstationGroup.rotation.y += 0.05 * (targetX - workstationGroup.rotation.y) - 0.002; // Minimal offset
+    workstationGroup.rotation.x += 0.05 * (targetY - workstationGroup.rotation.x);
 
     // Parallax camera slightly (gentler movement)
-    camera.position.x += (mouseX * 2 - camera.position.x) * 0.03;
-    camera.position.y += (-mouseY * 2 + 5 - camera.position.y) * 0.03; // Base Y is 5
+    camera.position.x += (mouseX * 4 - camera.position.x) * 0.05;
+    camera.position.y += (-mouseY * 4 + 5 - camera.position.y) * 0.05; // Base Y is 5
     camera.lookAt(0, 0, 0);
 
     // Animate floaters gently
