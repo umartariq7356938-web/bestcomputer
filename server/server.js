@@ -34,14 +34,18 @@ const startServer = async () => {
     await mongoose.connect(mongoUri);
     console.log('MongoDB connected successfully');
 
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
+    // Only listen if not running on Vercel
+    if (process.env.NODE_ENV !== 'production') {
+      const PORT = process.env.PORT || 5000;
+      app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+      });
+    }
   } catch (err) {
     console.error('Database connection error:', err);
-    process.exit(1);
   }
 };
 
 startServer();
+
+module.exports = app;
