@@ -1,19 +1,35 @@
-// Word lists based on Gen-Z computing themes
+// Word lists based on Gen-Z computing themes, tech, and gaming
 const wordsEasy = [
     'computer', 'mouse', 'screen', 'keyboard', 'internet', 'printer', 'window', 'folder',
-    'click', 'type', 'game', 'play', 'save', 'file', 'data', 'cloud', 'pixel', 'code'
+    'click', 'type', 'game', 'play', 'save', 'file', 'data', 'cloud', 'pixel', 'code',
+    'byte', 'web', 'link', 'app', 'chat', 'tech', 'phone', 'smart', 'wifi', 'host',
+    'port', 'disk', 'ram', 'cpu', 'gpu', 'usb', 'home', 'user', 'login', 'load',
+    'boot', 'mac', 'pc', 'hack', 'ping', 'lag', 'bot', 'mod', 'fps', 'rpg', 'mmo',
+    'skill', 'noob', 'pro', 'stream', 'view', 'post', 'blog', 'vlog', 'feed', 'like'
   ];
   
   const wordsMedium = [
     'motherboard', 'application', 'software', 'hardware', 'network', 'database', 'security',
     'browser', 'processor', 'graphics', 'download', 'upload', 'password', 'firewall',
-    'desktop', 'laptop', 'monitor', 'router', 'server', 'wireless'
+    'desktop', 'laptop', 'monitor', 'router', 'server', 'wireless', 'bluetooth',
+    'algorithm', 'bandwidth', 'broadband', 'cache', 'command', 'compiler', 'compress',
+    'dashboard', 'developer', 'document', 'domain', 'ethernet', 'function', 'gateway',
+    'gigabyte', 'hacker', 'interface', 'malware', 'memory', 'offline', 'online', 'phishing',
+    'platform', 'protocol', 'reboot', 'resolution', 'spam', 'spyware', 'storage', 'terminal',
+    'update', 'upgrade', 'virus', 'webcam', 'website', 'widget', 'wireless', 'zip'
   ];
   
   const wordsHard = [
     'virtualization', 'troubleshooting', 'configuration', 'cybersecurity', 'infrastructure',
     'authentication', 'cryptography', 'optimization', 'architecture', 'bandwidth',
-    'microprocessor', 'asynchronous', 'framework', 'repository', 'algorithm'
+    'microprocessor', 'asynchronous', 'framework', 'repository', 'algorithm',
+    'artificial', 'intelligence', 'cryptocurrency', 'decentralized', 'encryption',
+    'machine learning', 'blockchain', 'development', 'programming', 'vulnerability',
+    'motherboard', 'overclocking', 'benchmark', 'bottleneck', 'compatibility',
+    'responsive design', 'user interface', 'user experience', 'deployment',
+    'version control', 'continuous integration', 'data analytics', 'cloud computing',
+    'type fast to win', 'beat your high score', 'gaming dashboard is cool',
+    'never give up the fight', 'practice makes perfect'
   ];
   
   export const getRandomWord = (difficulty = 'easy') => {
