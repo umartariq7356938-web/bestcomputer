@@ -4,7 +4,14 @@ import * as THREE from 'three';
 const isMobile = window.matchMedia('(max-width: 768px)').matches;
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-if (!isMobile && !prefersReducedMotion) {
+function isWebGLAvailable() {
+  try {
+    const canvas = document.createElement('canvas');
+    return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+  } catch (e) { return false; }
+}
+
+if (!isMobile && !prefersReducedMotion && isWebGLAvailable()) {
   init3DHero();
 }
 
@@ -115,6 +122,21 @@ function init3DHero() {
   workstationGroup.position.set(5.5, -2.5, 0);
   workstationGroup.rotation.y = -0.15;
   scene.add(workstationGroup);
+
+  // --- Realistic Ground Shadow ---
+  const groundGeo = new THREE.PlaneGeometry(30, 30);
+  const groundMat = new THREE.ShadowMaterial({ opacity: 0.15 });
+  const ground = new THREE.Mesh(groundGeo, groundMat);
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.y = -2.8;
+  ground.receiveShadow = true;
+  scene.add(ground);
+  
+  // --- Keyboard Scanning Light ---
+  const kbLight = new THREE.PointLight(0x38bdf8, 0.4, 3);
+  kbLight.position.set(-2, 0.15, 1.5);
+  workstationGroup.add(kbLight);
+
 
   // --- Premium Floating Tech Elements (Glass/Light Orbs) ---
   const floaters = [];
@@ -283,12 +305,16 @@ function init3DHero() {
   let mouseY = 0;
   let targetX = 0;
   let targetY = 0;
+  let scrollY = 0;
 
   document.addEventListener('mousemove', (event) => {
-    // Reduced sensitivity to avoid dizzying movement
     mouseX = (event.clientX - window.innerWidth / 2) * 0.0005;
     mouseY = (event.clientY - window.innerHeight / 2) * 0.0005;
   });
+
+  window.addEventListener('scroll', () => {
+    scrollY = window.scrollY;
+  }, { passive: true });
 
   // Handle Resize
   window.addEventListener('resize', () => {
@@ -299,6 +325,7 @@ function init3DHero() {
   });
 
   const clock = new THREE.Clock();
+  const baseDeskY = -2.5;
 
   function animate() {
     requestAnimationFrame(animate);
@@ -310,18 +337,26 @@ function init3DHero() {
     targetX = mouseX * 0.5;
     targetY = mouseY * 0.5;
 
+    // Subtle floating for the workstation
+    workstationGroup.position.y = baseDeskY + Math.sin(time * 1.5) * 0.08;
+
     // Subtle rotation of the entire group
-    workstationGroup.rotation.y += 0.05 * (targetX - workstationGroup.rotation.y) - 0.002; // Minimal offset
+    workstationGroup.rotation.y += 0.05 * (targetX - workstationGroup.rotation.y) - 0.002;
     workstationGroup.rotation.x += 0.05 * (targetY - workstationGroup.rotation.x);
+    
+    // Keyboard scanning light effect
+    kbLight.position.x = -2 + Math.sin(time * 3) * 1.2;
 
-    // Parallax camera slightly (gentler movement)
+    // Parallax camera + Scroll Parallax
     camera.position.x += (mouseX * 4 - camera.position.x) * 0.05;
-    camera.position.y += (-mouseY * 4 + 5 - camera.position.y) * 0.05; // Base Y is 5
-    camera.lookAt(0, 0, 0);
+    camera.position.y += (-mouseY * 4 + 5 + (scrollY * 0.008) - camera.position.y) * 0.05;
+    camera.lookAt(0, scrollY * -0.002, 0); // look down slightly as we scroll up
 
-    // Animate floaters gently
-    floaters.forEach(mesh => {
-      mesh.position.y = mesh.initialY + Math.sin(time * 0.5 + mesh.offset) * 0.3;
+    // Animate floaters gently, with scroll parallax offsets
+    floaters.forEach((mesh, idx) => {
+      // floaters move vertically with scroll at different speeds based on index
+      const scrollOffset = scrollY * 0.002 * (idx + 1);
+      mesh.position.y = mesh.initialY + scrollOffset + Math.sin(time * 0.5 + mesh.offset) * 0.3;
       mesh.rotation.x += mesh.speed;
       mesh.rotation.y += mesh.speed;
     });
