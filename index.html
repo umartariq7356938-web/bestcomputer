@@ -15,13 +15,99 @@
     <div class="nav-actions"><a class="button" href="/admin.html" style="background-color: #f1f1f1; color: #333; margin-right: 10px;">Admin Login</a><a class="button button-wa nav-wa wa-link" data-message="Hello Best Computer, I would like to know about your services." target="_blank" rel="noreferrer"><span data-icon="message"></span>Chat on WhatsApp</a><a class="mobile-wa wa-link" data-message="Hello Best Computer, I would like to know about your services." aria-label="Chat on WhatsApp" target="_blank" rel="noreferrer"><span data-icon="message"></span></a><button class="menu-toggle" id="menu-button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span data-icon="menu"></span></button></div>
   </div><nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation"><a href="#home">Home <span data-icon="chevron"></span></a><a href="/tools.html" style="color: #10b981;">Online Tools</a><a href="/ai-studio.html" style="color: #a855f7;">AI Photo Studio</a><a href="/typing-arcade.html" style="color: #f59e0b;">⌨️ Typing Arcade</a><a href="#services">Services <span data-icon="chevron"></span></a><a href="#photostudio">Photostudio <span data-icon="chevron"></span></a><a href="#printing">Printing &amp; Composing <span data-icon="chevron"></span></a><a href="#design">Graphic Design <span data-icon="chevron"></span></a><a href="#location">Location <span data-icon="chevron"></span></a><a href="#contact">Contact <span data-icon="chevron"></span></a><a class="button button-wa mobile-menu-wa wa-link" data-message="Hello Best Computer, I would like to know about your services." target="_blank" rel="noreferrer"><span data-icon="message"></span>Chat on WhatsApp</a></nav></header>
   <main>
-    <section class="hero" id="home"><div class="hero-grid"><div class="hero-copy"><p class="eyebrow"><span></span>Your local digital service center</p><h1>Your <strong>One-Stop Destination</strong> for Computer, Digital, Printing &amp; Photostudio Services</h1><p class="hero-text">Professional computer services, photostudio, printing, composing, graphic design, documentation and accessories — conveniently available at Best Computer.</p><div class="hero-buttons"><a class="button button-wa wa-link" data-message="Hello Best Computer, I would like to know about your services." target="_blank" rel="noreferrer"><span data-icon="message"></span>Chat on WhatsApp</a><a class="button button-secondary" href="https://maps.app.goo.gl/TnMwPty6edcxLTzv9?g_st=awb" target="_blank" rel="noreferrer"><span data-icon="pin"></span>Get Directions</a></div><ul class="trust-points"><li><span><span data-icon="check"></span></span>Multiple Services Under One Roof</li><li><span><span data-icon="check"></span></span>Professional &amp; Convenient Service</li><li><span><span data-icon="check"></span></span>Easy WhatsApp Contact</li><li><span><span data-icon="check"></span></span>Local Customer Support</li></ul></div><div id="showcase-root"></div></div></section>
+    <section class="hero" id="home">
+      <div id="hero-3d-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;"></div>
+      <div class="hero-grid" style="position: relative; z-index: 1;">
+        <div class="hero-copy">
+          <p class="eyebrow" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+            <span></span>Learn • Create • Solve
+          </p>
+          <h1 style="font-size: clamp(3rem, 6vw, 5rem); letter-spacing: -2px; margin-bottom: 1rem; text-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+            BEST <strong>COMPUTER</strong>
+          </h1>
+          <p class="hero-text" style="font-size: 1.25rem; max-width: 600px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+            Computer Services, Digital Learning, Smart Tools &amp; IT Solutions — All in One Place.
+          </p>
+          <div class="hero-buttons" style="display: flex; flex-wrap: wrap; gap: 1rem;">
+            <a class="button" href="#learning-hub" style="background: linear-gradient(135deg, #3b82f6, #2563eb); border: none; box-shadow: 0 4px 15px rgba(59,130,246,0.4);">🎓 Start Learning</a>
+            <a class="button button-secondary" href="#services" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">💻 Explore Services</a>
+            <a class="button button-secondary" href="/tools.html" style="background: rgba(16,185,129,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(16,185,129,0.3); color: #10b981;">🧰 Free Tools</a>
+            <a class="button button-wa wa-link" data-message="Hello Best Computer, I would like to know about your services." target="_blank" rel="noreferrer" style="box-shadow: 0 4px 15px rgba(37,211,102,0.4);"><span data-icon="message"></span> WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
     <section class="section services" id="services"><div class="section-heading"><p class="eyebrow"><span></span>What we do</p><h2>Our Services</h2><p>Everything you need for your computer, digital, printing and photostudio needs — all in one place.</p></div><div class="services-grid" id="services-grid"></div></section>
+    
+    <section class="section" id="learning-hub" style="position:relative; z-index:2;">
+      <div class="section-heading" style="position:relative;">
+        <p class="eyebrow"><span></span>Level Up</p>
+        <h2>Digital <em>Learning Hub</em></h2>
+        <p>Master new skills with our specialized computer and IT courses.</p>
+        <!-- Floating icons -->
+        <span style="position:absolute; top:-20px; left:0; font-size:2rem; animation: float 4s ease-in-out infinite;">🎓</span>
+        <span style="position:absolute; top:20px; right:10px; font-size:2rem; animation: float 5s ease-in-out infinite alternate;">💻</span>
+      </div>
+      <div class="services-grid">
+        <article class="service-card tilt-card" style="background:linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));">
+          <div class="tilt-card-inner">
+            <div class="service-icon" style="background:#fef3c7; color:#d97706;"><svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div>
+            <h3>Computer Basics</h3>
+            <p>Perfect for beginners to learn operating systems and everyday tasks.</p>
+            <a href="https://wa.me/923215504666" target="_blank" rel="noreferrer" style="color:#d97706; margin-top:20px; display:inline-block; font-weight:800;">Enroll Now →</a>
+          </div>
+        </article>
+        <article class="service-card tilt-card" style="background:linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));">
+          <div class="tilt-card-inner">
+            <div class="service-icon" style="background:#e0e7ff; color:#4f46e5;"><svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg></div>
+            <h3>MS Office Mastery</h3>
+            <p>Learn Word, Excel, and PowerPoint for professional productivity.</p>
+            <a href="https://wa.me/923215504666" target="_blank" rel="noreferrer" style="color:#4f46e5; margin-top:20px; display:inline-block; font-weight:800;">Enroll Now →</a>
+          </div>
+        </article>
+        <article class="service-card tilt-card" style="background:linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));">
+          <div class="tilt-card-inner">
+            <div class="service-icon" style="background:#dcfce7; color:#16a34a;"><svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18-6 3V6l6-3 6 3 6-3v15l-6 3Z"/><path d="M9 3v15M15 6v15"/></svg></div>
+            <h3>IT Support & Networking</h3>
+            <p>Understand hardware troubleshooting, software installation, and networks.</p>
+            <a href="https://wa.me/923215504666" target="_blank" rel="noreferrer" style="color:#16a34a; margin-top:20px; display:inline-block; font-weight:800;">Enroll Now →</a>
+          </div>
+        </article>
+        <article class="service-card tilt-card" style="background:linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));">
+          <div class="tilt-card-inner">
+            <div class="service-icon" style="background:#fae8ff; color:#c026d3;"><svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h.01M10 10h.01M13 10h.01M16 10h.01M7 14h6M16 14h1"/></svg></div>
+            <h3>AI Learning & Tools</h3>
+            <p>Stay ahead of the curve by learning how to use modern AI applications.</p>
+            <a href="https://wa.me/923215504666" target="_blank" rel="noreferrer" style="color:#c026d3; margin-top:20px; display:inline-block; font-weight:800;">Enroll Now →</a>
+          </div>
+        </article>
+      </div>
+    </section>
     <section class="section why"><div class="why-intro"><p class="eyebrow"><span></span>Why us</p><h2>Why Choose<br><em>Best Computer?</em></h2><p>A convenient place for your everyday computer, digital, printing and photostudio needs.</p><a href="#location" class="text-link">Find our location <span data-icon="arrow"></span></a></div><div class="why-grid"><article><div><span data-icon="building"></span></div><h3>Multiple Services</h3><p>Many everyday digital and computer services available in one place.</p></article><article><div><span data-icon="check"></span></div><h3>Convenient Service</h3><p>Simple and convenient service for local customers.</p></article><article><div><span data-icon="message"></span></div><h3>Easy WhatsApp Contact</h3><p>Contact us directly through WhatsApp.</p></article><article><div><span data-icon="pin"></span></div><h3>Local Support</h3><p>Visit our shop or contact us for assistance.</p></article></div></section>
     <section class="section location" id="location"><div class="location-map" aria-label="Map illustration showing the Best Computer location"><div class="map-grid"></div><div class="map-road r1"></div><div class="map-road r2"></div><div class="map-road r3"></div><div class="map-pin"><span><span data-icon="pin"></span></span><b>BEST<br>COMPUTER</b></div><div class="map-label one">Peshawar Road</div><div class="map-label two">Dhok Mustaqeem</div></div><div class="location-copy"><p class="eyebrow"><span></span>Find us easily</p><h2>Visit Best<br><em>Computer</em></h2><p>Looking for Best Computer? Get directions to our shop on Google Maps.</p><div class="address"><div><span data-icon="pin"></span></div><span><small>OUR LOCATION</small>Dhok Mustaqeem, Peshawar Road, Rawalpindi</span></div><a class="button button-dark" href="https://maps.app.goo.gl/TnMwPty6edcxLTzv9?g_st=awb" target="_blank" rel="noreferrer"><span data-icon="map"></span>Get Directions</a></div></section>
-    <section class="contact" id="contact"><div><p class="eyebrow"><span></span>Quick and easy contact</p><h2>Need a Service?<br><em>Let's Talk on WhatsApp.</em></h2><p>Send us your requirement and we'll guide you about the service.</p></div><div class="contact-action"><a class="button button-wa large-wa wa-link" data-message="Hello Best Computer, I would like to know about your services." target="_blank" rel="noreferrer"><span data-icon="message"></span>Chat on WhatsApp</a><a href="tel:+923215504666" class="phone-link"><span data-icon="phone"></span><span>Or call us at <b>+92 321 5504666</b></span></a></div></section>
+    <section class="contact" id="contact" style="position:relative; z-index:2; overflow:visible;">
+      <div style="flex:1;">
+        <p class="eyebrow"><span></span>Quick and easy contact</p>
+        <h2>Need a Service?<br><em>Let's Talk on WhatsApp.</em></h2>
+        <p>Send us your requirement and we'll guide you about the service.</p>
+        <div class="dashboard-visual" style="margin-top:40px; padding:20px; background:rgba(255,255,255,0.1); backdrop-filter:blur(10px); border-radius:16px; border:1px solid rgba(255,255,255,0.2); display:inline-block; animation:float 6s ease-in-out infinite; box-shadow:0 10px 30px rgba(0,0,0,0.2); transform-style:preserve-3d; perspective:1000px;">
+          <div style="font-family:monospace; color:#9cd1f4; font-size:14px; line-height:1.8; transform:translateZ(20px);">
+            <div style="color:#75dfac; font-weight:bold; margin-bottom:10px; font-size:16px;">🖥️ SYSTEM STATUS</div>
+            <div style="display:flex; justify-content:space-between; width:150px;"><span>CPU</span> <span style="color:#75dfac;">✓ OK</span></div>
+            <div style="display:flex; justify-content:space-between; width:150px;"><span>RAM</span> <span style="color:#75dfac;">✓ OK</span></div>
+            <div style="display:flex; justify-content:space-between; width:150px;"><span>STORAGE</span> <span style="color:#fbbf24;">⚠ 85%</span></div>
+            <div style="display:flex; justify-content:space-between; width:150px;"><span>NETWORK</span> <span style="color:#75dfac;">✓ ONLINE</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-action" style="flex:1; display:flex; justify-content:center;">
+        <a class="button button-wa large-wa wa-link" data-message="Hello Best Computer, I would like to know about your services." target="_blank" rel="noreferrer" style="transform:translateZ(30px); box-shadow:0 15px 30px rgba(32,185,109,0.3);"><span data-icon="message"></span>Chat on WhatsApp</a>
+        <a href="tel:+923215504666" class="phone-link"><span data-icon="phone"></span><span>Or call us at <b>+92 321 5504666</b></span></a>
+      </div>
+    </section>
   </main>
   <footer><div class="footer-main"><div class="footer-brand"><a href="#home" class="brand"><span class="brand-mark"><span data-icon="computer"></span></span><span>BEST <b>COMPUTER</b><small>Digital service center</small></span></a><p>Computer, Digital &amp; Photostudio Services Under One Roof.</p><a href="/tools.html" style="color: #10b981; font-weight: bold;">Online Tools</a><br><a href="/ai-studio.html" style="color: #a855f7; font-weight: bold;">AI Photo Studio</a><br><a href="/typing-arcade.html" style="color: #f59e0b; font-weight: bold;">⌨️ Typing Arcade</a><br><br><a class="button button-wa wa-link" data-message="Hello Best Computer, I would like to know about your services." target="_blank" rel="noreferrer"><span data-icon="message"></span>Chat on WhatsApp</a></div><div><h3>Quick Links</h3><a href="#home">Home</a><a href="#services">Services</a><a href="/tools.html">Online Tools</a><a href="/ai-studio.html">AI Photo Studio</a><a href="/typing-arcade.html">Typing Arcade</a><a href="#photostudio">Photostudio</a><a href="#printing">Printing &amp; Composing</a><a href="#design">Graphic Design</a><a href="#location">Location</a><a href="#contact">Contact</a></div><div><h3>Services</h3><a href="#computer">Computer Services</a><a href="#photostudio">Photostudio</a><a href="#printing">Printing &amp; Composing</a><a href="#design">Graphic Design</a><a href="#stamp">Stamp Paper</a><a href="#sahulat">NADRA / E-Sahulat</a><a href="#computer-accessories">Computer Accessories</a><a href="#mobile-accessories">Mobile Accessories</a></div><div class="footer-contact"><h3>Contact</h3><a class="wa-link" data-message="Hello Best Computer, I would like to know about your services." target="_blank" rel="noreferrer"><span data-icon="message"></span>+92 321 5504666</a><a href="https://maps.app.goo.gl/TnMwPty6edcxLTzv9?g_st=awb" target="_blank" rel="noreferrer"><span data-icon="pin"></span>Dhok Mustaqeem,<br> Peshawar Road, Rawalpindi</a></div></div><div class="footer-bottom">© 2026 Best Computer. All Rights Reserved.<a href="#home">Back to top <span data-icon="arrow"></span></a></div></footer>
   <a class="floating-wa wa-link" data-message="Hello Best Computer, I would like to know about your services." target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp"><span data-icon="message"></span><span>Chat with us</span></a><div class="bottom-actions"><a href="tel:+923215504666"><span data-icon="phone"></span>Call</a><a class="wa-link" data-message="Hello Best Computer, I would like to know about your services." target="_blank" rel="noreferrer"><span data-icon="message"></span>WhatsApp</a><a href="https://maps.app.goo.gl/TnMwPty6edcxLTzv9?g_st=awb" target="_blank" rel="noreferrer"><span data-icon="map"></span>Directions</a></div>
+  <script type="module" src="/src/hero3d.js"></script>
   <script type="module" src="/src/site.js"></script>
 </body></html>

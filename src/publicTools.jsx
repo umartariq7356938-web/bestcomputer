@@ -196,15 +196,35 @@ function App() {
                 <a 
                   key={tool.id} 
                   href={`#/${tool.id}`} 
-                  className={`tool-card ${tool.status === 'coming-soon' ? 'tool-coming-soon' : ''}`}
+                  className={`tool-card tilt-card ${tool.status === 'coming-soon' ? 'tool-coming-soon' : ''}`}
+                  onMouseMove={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const rotateX = ((y - rect.height/2) / (rect.height/2)) * -8;
+                    const rotateY = ((x - rect.width/2) / (rect.width/2)) * 8;
+                    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+                    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+                    const inner = e.currentTarget.querySelector('.tilt-card-inner');
+                    if(inner) inner.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.classList.add('resetting');
+                    const inner = e.currentTarget.querySelector('.tilt-card-inner');
+                    if(inner) inner.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0)`;
+                    setTimeout(() => e.currentTarget.classList.remove('resetting'), 500);
+                  }}
+                  style={{ display: 'block', textDecoration: 'none' }}
                 >
-                  <div className="tool-icon">{tool.emoji}</div>
-                  <h3>
-                    {tool.name} 
-                    {tool.status === 'coming-soon' && <span className="tool-badge">Soon</span>}
-                  </h3>
-                  <p>{tool.description}</p>
-                  <span className="tool-btn">Open Tool</span>
+                  <div className="tilt-card-inner" style={{ height: '100%', transition: 'transform 0.3s' }}>
+                    <div className="tool-icon">{tool.emoji}</div>
+                    <h3>
+                      {tool.name} 
+                      {tool.status === 'coming-soon' && <span className="tool-badge">Soon</span>}
+                    </h3>
+                    <p>{tool.description}</p>
+                    <span className="tool-btn">Open Tool</span>
+                  </div>
                 </a>
               ))}
             </div>
