@@ -24,13 +24,13 @@ if (!isMobile && !prefersReducedMotion) {
       const y = e.clientY - rect.top;
       const rotateX = ((y - rect.height/2) / (rect.height/2)) * -8;
       const rotateY = ((x - rect.width/2) / (rect.width/2)) * 8;
-      card.style.setProperty('--mouse-x', ${x}px);
-      card.style.setProperty('--mouse-y', ${y}px);
-      inner.style.transform = perspective(1000px) rotateX(deg) rotateY(deg) translateZ(20px);
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+      inner.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
     });
     card.addEventListener('mouseleave', () => {
       card.classList.add('resetting');
-      inner.style.transform = perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0);
+      inner.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0)`;
       setTimeout(() => card.classList.remove('resetting'), 500);
     });
   });
