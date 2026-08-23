@@ -22,3 +22,5 @@ h1{transition:transform .8s ease,filter .8s ease}h1 strong{display:inline;backgr
 @keyframes float { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-15px) rotate(5deg); } 100% { transform: translateY(0px) rotate(0deg); } }
 body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: -1; }
 body::after { content: ''; position: fixed; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(23,105,188,0.04) 0%, transparent 70%); pointer-events: none; z-index: -2; }
+
+@media(max-width:790px) { #hero-3d-canvas { position: relative !important; height: 350px !important; top: auto !important; left: auto !important; margin: -20px auto 30px !important; width: 100% !important; max-width: 500px !important; pointer-events: none !important; } }

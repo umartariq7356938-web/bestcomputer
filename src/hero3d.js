@@ -11,7 +11,7 @@ function isWebGLAvailable() {
   } catch (e) { return false; }
 }
 
-if (!isMobile && !prefersReducedMotion && isWebGLAvailable()) {
+if (!prefersReducedMotion && isWebGLAvailable()) {
   init3DHero();
 }
 
@@ -30,11 +30,11 @@ function init3DHero() {
   camera.lookAt(0, 0, 0);
 
   // Renderer setup
-  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !isMobile }); // turn off antialias on mobile for performance
   renderer.setSize(container.clientWidth, container.clientHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 2)); // 1x resolution on mobile
+  renderer.shadowMap.enabled = !isMobile; // no shadows on mobile
+  if (!isMobile) renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   container.appendChild(renderer.domElement);
 
   // --- HTML Canvas for LCD Screen ---
@@ -119,18 +119,26 @@ function init3DHero() {
   workstationGroup.add(strip);
 
   // Center workstation and lower slightly for better framing
-  workstationGroup.position.set(5.5, -2.5, 0);
-  workstationGroup.rotation.y = -0.15;
+  if (isMobile) {
+    workstationGroup.position.set(0, -1.5, 0); // Centered and slightly higher for mobile
+    workstationGroup.rotation.y = -0.05;
+    camera.position.set(0, 5, 25); // Zoom out slightly on mobile
+  } else {
+    workstationGroup.position.set(5.5, -2.5, 0);
+    workstationGroup.rotation.y = -0.15;
+  }
   scene.add(workstationGroup);
 
   // --- Realistic Ground Shadow ---
-  const groundGeo = new THREE.PlaneGeometry(30, 30);
-  const groundMat = new THREE.ShadowMaterial({ opacity: 0.15 });
-  const ground = new THREE.Mesh(groundGeo, groundMat);
-  ground.rotation.x = -Math.PI / 2;
-  ground.position.y = -2.8;
-  ground.receiveShadow = true;
-  scene.add(ground);
+  if (!isMobile) {
+    const groundGeo = new THREE.PlaneGeometry(30, 30);
+    const groundMat = new THREE.ShadowMaterial({ opacity: 0.15 });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -2.8;
+    ground.receiveShadow = true;
+    scene.add(ground);
+  }
   
   // --- Keyboard Scanning Light ---
   const kbLight = new THREE.PointLight(0x38bdf8, 0.4, 3);
@@ -159,9 +167,14 @@ function init3DHero() {
     floaters.push(mesh);
   };
 
-  createFloater(floaterGeo1, glassMat, { x: 7, y: 2, z: 2 });
-  createFloater(floaterGeo2, glowMat1, { x: 2, y: 4, z: -1 });
-  createFloater(floaterGeo1, glowMat2, { x: 8, y: 1, z: 4 });
+  if (!isMobile) {
+    createFloater(floaterGeo1, glassMat, { x: 7, y: 2, z: 2 });
+    createFloater(floaterGeo2, glowMat1, { x: 2, y: 4, z: -1 });
+    createFloater(floaterGeo1, glowMat2, { x: 8, y: 1, z: 4 });
+  } else {
+    // Just one small floater on mobile
+    createFloater(floaterGeo1, glowMat1, { x: 3, y: 2, z: -1 });
+  }
 
   // --- Realistic Lighting Setup ---
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.2); // Soft ambient
