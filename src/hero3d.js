@@ -89,13 +89,43 @@ function init3DHero() {
   screen.position.set(-1.5, 3.8, -0.72);
   workstationGroup.add(screen);
 
-  // 4. Keyboard (Slim)
-  const keyboardGeo = new THREE.BoxGeometry(3.2, 0.1, 1.1);
-  const keyboard = new THREE.Mesh(keyboardGeo, darkMetal);
-  keyboard.position.set(-2, 0.05, 1.5);
-  keyboard.rotation.x = 0.03;
-  keyboard.castShadow = true;
-  workstationGroup.add(keyboard);
+  // 4. Keyboard (Lighting RGB Keyboard)
+  const keyboardGroup = new THREE.Group();
+  keyboardGroup.position.set(-2, 0.05, 1.5);
+  keyboardGroup.rotation.x = 0.03;
+  
+  const kbBaseGeo = new THREE.BoxGeometry(3.6, 0.1, 1.3);
+  const kbBase = new THREE.Mesh(kbBaseGeo, darkMetal);
+  kbBase.castShadow = true;
+  keyboardGroup.add(kbBase);
+  
+  // Glowing Keys Texture
+  const kbCanvas = document.createElement('canvas');
+  kbCanvas.width = 512; kbCanvas.height = 128;
+  const kbCtx = kbCanvas.getContext('2d');
+  kbCtx.fillStyle = '#0f172a';
+  kbCtx.fillRect(0,0,512,128);
+  
+  for(let i=12; i<500; i+=24) {
+     for(let j=12; j<116; j+=24) {
+        if (Math.random() > 0.1) {
+            kbCtx.fillStyle = (Math.random() > 0.8) ? '#a78bfa' : '#38bdf8';
+            kbCtx.fillRect(i, j, 18, 18);
+        }
+     }
+  }
+  // Spacebar
+  kbCtx.fillStyle = '#38bdf8';
+  kbCtx.fillRect(156, 84, 200, 18);
+  
+  const kbTexture = new THREE.CanvasTexture(kbCanvas);
+  const kbKeysGeo = new THREE.PlaneGeometry(3.4, 1.1);
+  const kbKeysMat = new THREE.MeshBasicMaterial({ map: kbTexture, transparent: true, opacity: 0.85 });
+  const kbKeys = new THREE.Mesh(kbKeysGeo, kbKeysMat);
+  kbKeys.rotation.x = -Math.PI / 2;
+  kbKeys.position.y = 0.06;
+  keyboardGroup.add(kbKeys);
+  workstationGroup.add(keyboardGroup);
 
   // 5. Mouse (Ergonomic curve via low-poly smooth)
   const mouseGeo = new THREE.BoxGeometry(0.4, 0.15, 0.7);
@@ -107,7 +137,7 @@ function init3DHero() {
   // 6. Premium PC Tower (Glass side panel & glow)
   const pcGeo = new THREE.BoxGeometry(2.2, 5.5, 4.5);
   const pc = new THREE.Mesh(pcGeo, darkMetal);
-  pc.position.set(3.5, 2.75, -1);
+  pc.position.set(4.5, 2.75, -1); // Moved right to avoid clipping LCD
   pc.castShadow = true;
   workstationGroup.add(pc);
   
@@ -115,7 +145,7 @@ function init3DHero() {
   const stripGeo = new THREE.BoxGeometry(0.1, 4.8, 3.8);
   const stripMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
   const strip = new THREE.Mesh(stripGeo, stripMat);
-  strip.position.set(2.41, 2.75, -1);
+  strip.position.set(3.41, 2.75, -1);
   workstationGroup.add(strip);
 
   // Center workstation and lower slightly for better framing
@@ -132,7 +162,7 @@ function init3DHero() {
   // --- Realistic Ground Shadow ---
   if (!isMobile) {
     const groundGeo = new THREE.PlaneGeometry(30, 30);
-    const groundMat = new THREE.ShadowMaterial({ opacity: 0.15 });
+    const groundMat = new THREE.ShadowMaterial({ opacity: 0.05 });
     const ground = new THREE.Mesh(groundGeo, groundMat);
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -2.8;
@@ -177,11 +207,11 @@ function init3DHero() {
   }
 
   // --- Realistic Lighting Setup ---
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.2); // Soft ambient
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.8); // Soft ambient
   scene.add(ambientLight);
 
   // Strong Key Light from Top Right
-  const keyLight = new THREE.SpotLight(0xffffff, 3);
+  const keyLight = new THREE.SpotLight(0xffffff, 1.8);
   keyLight.position.set(10, 15, 10);
   keyLight.angle = Math.PI / 6;
   keyLight.penumbra = 0.5;
@@ -192,7 +222,7 @@ function init3DHero() {
   scene.add(keyLight);
 
   // Soft Fill Light from Top Left (Blue tint)
-  const fillLight = new THREE.DirectionalLight(0x38bdf8, 1);
+  const fillLight = new THREE.DirectionalLight(0x38bdf8, 1.5);
   fillLight.position.set(-10, 10, 5);
   scene.add(fillLight);
 
